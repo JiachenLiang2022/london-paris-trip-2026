@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>伦敦 + 巴黎中文行程单</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #f6f7f2;
+      --ink: #17211b;
+      --muted: #667266;
+      --line: #dfe5dc;
+      --card: #ffffff;
+      --green: #1f6f4a;
+      --blue: #235d8f;
+      --red: #9f3a38;
+      --gold: #996d1b;
+      --shadow: 0 18px 44px rgba(28, 38, 31, .12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    .app { display: grid; grid-template-columns: 430px minmax(0, 1fr); min-height: 100vh; }
+    aside {
+      height: 100vh;
+      overflow: auto;
+      background: rgba(255,255,255,.92);
+      border-right: 1px solid var(--line);
+      padding: 18px;
+    }
+    main { min-width: 0; display: grid; grid-template-rows: minmax(360px, 56vh) 1fr; }
+    #map { width: 100%; min-height: 360px; z-index: 1; }
+    .hero {
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, #fdfbf3, #eef6f2);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+    }
+    .eyebrow { margin: 0 0 6px; color: var(--green); font-weight: 800; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: 28px; line-height: 1.15; letter-spacing: 0; }
+    .meta { margin: 8px 0 0; color: var(--muted); line-height: 1.6; font-size: 13px; }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+    .tab {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .tab.active { background: var(--green); border-color: var(--green); color: #fff; }
+    .section { padding: 14px 18px 18px; overflow: auto; }
+    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .summary-box, .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: 0 8px 22px rgba(28,38,31,.06);
+    }
+    .summary-box { padding: 14px; }
+    .summary-box h3 { margin: 0 0 8px; font-size: 14px; color: var(--green); }
+    .summary-box p { margin: 4px 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .day-head { margin: 0 0 12px; }
+    .day-head h2 { margin: 0; font-size: 22px; letter-spacing: 0; }
+    .day-head p { margin: 6px 0 0; color: var(--muted); line-height: 1.5; }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .card { padding: 14px; position: relative; min-height: 170px; }
+    .card h3 { margin: 0 0 6px; font-size: 16px; letter-spacing: 0; }
+    .time { color: var(--blue); font-weight: 800; font-size: 13px; }
+    .desc, .detail { color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .cost { color: var(--gold); font-size: 13px; font-weight: 800; margin-top: 8px; }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 12px;
+      text-decoration: none;
+      background: #fbfcfa;
+      color: var(--muted);
+    }
+    .pay-yes { border-color: rgba(31,111,74,.25); color: var(--green); background: #edf8f1; }
+    .pay-maybe { border-color: rgba(153,109,27,.25); color: var(--gold); background: #fff8e8; }
+    .backup {
+      margin-top: 12px;
+      border-left: 4px solid var(--gold);
+      background: #fff9ea;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: #675327;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .list { padding: 14px; }
+    .list h3 { margin: 0 0 8px; font-size: 15px; }
+    .list ol, .list ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .leaflet-popup-content { margin: 10px 12px; min-width: 190px; }
+    .popup-title { font-weight: 800; margin-bottom: 4px; }
+    .popup-en { color: #667266; font-size: 12px; }
+    .popup-type { color: #1f6f4a; font-size: 12px; margin-top: 4px; }
+    @media (max-width: 920px) {
+      .app { display: block; }
+      aside { height: auto; max-height: none; border-right: 0; border-bottom: 1px solid var(--line); }
+      main { display: block; }
+      #map { height: 420px; }
+      .summary-grid, .cards, .lists { grid-template-columns: 1fr; }
+      .tabs { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      aside, .section { padding: 12px; }
+      h1 { font-size: 23px; }
+      .tabs { grid-template-columns: repeat(2, 1fr); }
+      .tab { min-height: 42px; font-size: 13px; }
+      #map { height: 360px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="hero">
+        <p class="eyebrow">Reference itinerary</p>
+        <h1 id="trip-title"></h1>
+        <p id="trip-meta" class="meta"></p>
+        <p id="trip-note" class="meta"></p>
+      </div>
+      <div id="tabs" class="tabs" aria-label="每日行程"></div>
+      <div class="lists">
+        <div class="summary-box">
+          <h3>订票优先级</h3>
+          <ol id="booking"></ol>
+        </div>
+        <div class="summary-box">
+          <h3>餐厅备选池</h3>
+          <ul id="restaurants"></ul>
+        </div>
+      </div>
+    </aside>
+    <main>
+      <div id="map"></div>
+      <section class="section">
+        <div class="summary-grid" id="budget-summary"></div>
+        <div class="day-head">
+          <h2 id="day-title"></h2>
+          <p id="day-summary"></p>
+        </div>
+        <div id="cards" class="cards"></div>
+        <div id="backup" class="backup"></div>
+        <div class="lists" style="margin-top:12px">
+          <div class="summary-box">
+            <h3>支付与预算提醒</h3>
+            <p>Apple Pay / Visa 优先；支付宝和微信境外 NFC 不作为唯一支付方式。购物付款选当地货币，退税单据按人分开。</p>
+          </div>
+          <div class="summary-box">
+            <h3>来源</h3>
+            <ul id="sources"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script id="trip-data" type="application/json">{"trip": {"title": "伦敦 + 巴黎 2026 夏季中文行程单", "subtitle": "London + Paris | 2026.7.20-7.28 | 6人", "dateRange": "2026-07-20 至 2026-07-28", "travelers": 6, "exchange": {"GBP_CNY": 9.6, "EUR_CNY": 8.4}, "budgetNote": "费用不含机票、住宿、购物、签证、保险、电话卡和不可预见打车加价。", "style": "轻松节奏，一天一个主区域；餐厅不反向扭曲路线；高血糖成员每餐保留低甜/高蛋白选项。", "hotelChoice": "伦敦建议优先 Point A Hotel London Paddington：7月高温下空调和睡眠质量优先于少坐几站地铁。"}, "places": [{"id": "point-a-paddington", "name": "伦敦帕丁顿波特A酒店", "nameEn": "Point A Hotel London Paddington", "lat": 51.5181, "lng": -0.1723, "type": "hotel", "area": "London Paddington", "note": "建议优先选择有空调的 Paddington 住宿。", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Point%20A%20Hotel%20London%20Paddington%2C%20London%20Paddington", "apple": "https://maps.apple.com/?q=Point%20A%20Hotel%20London%20Paddington%2C%20London%20Paddington"}}, {"id": "gatwick", "name": "盖特威克机场", "nameEn": "Gatwick Airport", "lat": 51.1537, "lng": -0.1821, "type": "transport", "area": "London Gatwick", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Gatwick%20Airport%2C%20London%20Gatwick", "apple": "https://maps.apple.com/?q=Gatwick%20Airport%2C%20London%20Gatwick"}}, {"id": "buckingham", "name": "白金汉宫国事厅", "nameEn": "Buckingham Palace State Rooms", "lat": 51.5014, "lng": -0.1419, "type": "spot", "area": "London SW1A", "note": "7/20 13:00 slot；提前到入口。", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Buckingham%20Palace%20State%20Rooms%2C%20London%20SW1A", "apple": "https://maps.apple.com/?q=Buckingham%20Palace%20State%20Rooms%2C%20London%20SW1A"}}, {"id": "st-james", "name": "圣詹姆斯公园", "nameEn": "St James's Park", "lat": 51.5025, "lng": -0.1349, "type": "spot", "area": "London SW1A", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=St%20James%27s%20Park%2C%20London%20SW1A", "apple": "https://maps.apple.com/?q=St%20James%27s%20Park%2C%20London%20SW1A"}}, {"id": "big-ben", "name": "大本钟与议会大厦", "nameEn": "Big Ben and Houses of Parliament", "lat": 51.5007, "lng": -0.1246, "type": "spot", "area": "London Westminster", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Big%20Ben%20and%20Houses%20of%20Parliament%2C%20London%20Westminster", "apple": "https://maps.apple.com/?q=Big%20Ben%20and%20Houses%20of%20Parliament%2C%20London%20Westminster"}}, {"id": "westminster-pier", "name": "威斯敏斯特码头", "nameEn": "Westminster Pier", "lat": 51.501, "lng": -0.1233, "type": "transport", "area": "London Westminster", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Westminster%20Pier%2C%20London%20Westminster", "apple": "https://maps.apple.com/?q=Westminster%20Pier%2C%20London%20Westminster"}}, {"id": "british-museum", "name": "大英博物馆", "nameEn": "British Museum", "lat": 51.5194, "lng": -0.127, "type": "spot", "area": "London Bloomsbury", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=British%20Museum%2C%20London%20Bloomsbury", "apple": "https://maps.apple.com/?q=British%20Museum%2C%20London%20Bloomsbury"}}, {"id": "westminster-abbey", "name": "威斯敏斯特教堂", "nameEn": "Westminster Abbey", "lat": 51.4993, "lng": -0.1273, "type": "spot", "area": "London Westminster", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Westminster%20Abbey%2C%20London%20Westminster", "apple": "https://maps.apple.com/?q=Westminster%20Abbey%2C%20London%20Westminster"}}, {"id": "national-gallery", "name": "国家美术馆", "nameEn": "National Gallery", "lat": 51.5089, "lng": -0.1283, "type": "spot", "area": "London Trafalgar Square", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=National%20Gallery%2C%20London%20Trafalgar%20Square", "apple": "https://maps.apple.com/?q=National%20Gallery%2C%20London%20Trafalgar%20Square"}}, {"id": "covent-garden", "name": "科文特花园", "nameEn": "Covent Garden", "lat": 51.5117, "lng": -0.1233, "type": "spot", "area": "London West End", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Covent%20Garden%2C%20London%20West%20End", "apple": "https://maps.apple.com/?q=Covent%20Garden%2C%20London%20West%20End"}}, {"id": "seven-sisters", "name": "七姐妹白崖", "nameEn": "Seven Sisters Cliffs", "lat": 50.7601, "lng": 0.1465, "type": "spot", "area": "East Sussex", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Seven%20Sisters%20Cliffs%2C%20East%20Sussex", "apple": "https://maps.apple.com/?q=Seven%20Sisters%20Cliffs%2C%20East%20Sussex"}}, {"id": "birling-gap", "name": "伯灵峡", "nameEn": "Birling Gap", "lat": 50.7431, "lng": 0.2006, "type": "spot", "area": "East Sussex", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Birling%20Gap%2C%20East%20Sussex", "apple": "https://maps.apple.com/?q=Birling%20Gap%2C%20East%20Sussex"}}, {"id": "kings-cross", "name": "国王十字车站", "nameEn": "King's Cross Station", "lat": 51.5317, "lng": -0.1246, "type": "transport", "area": "London", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=King%27s%20Cross%20Station%2C%20London", "apple": "https://maps.apple.com/?q=King%27s%20Cross%20Station%2C%20London"}}, {"id": "cambridge", "name": "剑桥市中心", "nameEn": "Cambridge city centre", "lat": 52.2053, "lng": 0.1218, "type": "spot", "area": "Cambridge", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Cambridge%20city%20centre%2C%20Cambridge", "apple": "https://maps.apple.com/?q=Cambridge%20city%20centre%2C%20Cambridge"}}, {"id": "kings-college", "name": "国王学院礼拜堂", "nameEn": "King's College Chapel Cambridge", "lat": 52.2043, "lng": 0.1165, "type": "spot", "area": "Cambridge", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=King%27s%20College%20Chapel%20Cambridge%2C%20Cambridge", "apple": "https://maps.apple.com/?q=King%27s%20College%20Chapel%20Cambridge%2C%20Cambridge"}}, {"id": "river-cam", "name": "康河撑篙", "nameEn": "River Cam Punting", "lat": 52.2071, "lng": 0.1167, "type": "spot", "area": "Cambridge", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=River%20Cam%20Punting%2C%20Cambridge", "apple": "https://maps.apple.com/?q=River%20Cam%20Punting%2C%20Cambridge"}}, {"id": "hyde-park", "name": "海德公园", "nameEn": "Hyde Park", "lat": 51.5073, "lng": -0.1657, "type": "spot", "area": "London", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Hyde%20Park%2C%20London", "apple": "https://maps.apple.com/?q=Hyde%20Park%2C%20London"}}, {"id": "villa-m", "name": "巴黎M别墅酒店", "nameEn": "Villa M Paris", "lat": 48.8414, "lng": 2.3159, "type": "hotel", "area": "Paris Montparnasse", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Villa%20M%20Paris%2C%20Paris%20Montparnasse", "apple": "https://maps.apple.com/?q=Villa%20M%20Paris%2C%20Paris%20Montparnasse"}}, {"id": "trocadero", "name": "特罗卡德罗广场", "nameEn": "Trocadero", "lat": 48.8629, "lng": 2.287, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Trocadero%2C%20Paris", "apple": "https://maps.apple.com/?q=Trocadero%2C%20Paris"}}, {"id": "eiffel", "name": "埃菲尔铁塔", "nameEn": "Eiffel Tower", "lat": 48.8584, "lng": 2.2945, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Eiffel%20Tower%2C%20Paris", "apple": "https://maps.apple.com/?q=Eiffel%20Tower%2C%20Paris"}}, {"id": "louvre", "name": "卢浮宫", "nameEn": "Musee du Louvre", "lat": 48.8606, "lng": 2.3376, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Musee%20du%20Louvre%2C%20Paris", "apple": "https://maps.apple.com/?q=Musee%20du%20Louvre%2C%20Paris"}}, {"id": "galeries", "name": "老佛爷百货", "nameEn": "Galeries Lafayette Paris Haussmann", "lat": 48.8738, "lng": 2.3321, "type": "shop", "area": "Paris Opera", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Galeries%20Lafayette%20Paris%20Haussmann%2C%20Paris%20Opera", "apple": "https://maps.apple.com/?q=Galeries%20Lafayette%20Paris%20Haussmann%2C%20Paris%20Opera"}}, {"id": "printemps", "name": "巴黎春天", "nameEn": "Printemps Haussmann", "lat": 48.8735, "lng": 2.3295, "type": "shop", "area": "Paris Opera", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Printemps%20Haussmann%2C%20Paris%20Opera", "apple": "https://maps.apple.com/?q=Printemps%20Haussmann%2C%20Paris%20Opera"}}, {"id": "versailles", "name": "凡尔赛宫", "nameEn": "Chateau de Versailles", "lat": 48.8049, "lng": 2.1204, "type": "spot", "area": "Versailles", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Chateau%20de%20Versailles%2C%20Versailles", "apple": "https://maps.apple.com/?q=Chateau%20de%20Versailles%2C%20Versailles"}}, {"id": "invalides", "name": "荣军院", "nameEn": "Les Invalides", "lat": 48.8566, "lng": 2.3126, "type": "spot", "area": "Paris Left Bank", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Les%20Invalides%2C%20Paris%20Left%20Bank", "apple": "https://maps.apple.com/?q=Les%20Invalides%2C%20Paris%20Left%20Bank"}}, {"id": "alexandre", "name": "亚历山大三世桥", "nameEn": "Pont Alexandre III", "lat": 48.8639, "lng": 2.3136, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Pont%20Alexandre%20III%2C%20Paris", "apple": "https://maps.apple.com/?q=Pont%20Alexandre%20III%2C%20Paris"}}, {"id": "champs", "name": "香榭丽舍大街", "nameEn": "Champs-Elysees", "lat": 48.8698, "lng": 2.3076, "type": "shop", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Champs-Elysees%2C%20Paris", "apple": "https://maps.apple.com/?q=Champs-Elysees%2C%20Paris"}}, {"id": "arc", "name": "凯旋门", "nameEn": "Arc de Triomphe", "lat": 48.8738, "lng": 2.295, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Arc%20de%20Triomphe%2C%20Paris", "apple": "https://maps.apple.com/?q=Arc%20de%20Triomphe%2C%20Paris"}}, {"id": "orsay", "name": "奥赛博物馆", "nameEn": "Musee d'Orsay", "lat": 48.86, "lng": 2.3266, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Musee%20d%27Orsay%2C%20Paris", "apple": "https://maps.apple.com/?q=Musee%20d%27Orsay%2C%20Paris"}}, {"id": "notre-dame", "name": "巴黎圣母院", "nameEn": "Notre-Dame de Paris", "lat": 48.853, "lng": 2.3499, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Notre-Dame%20de%20Paris%2C%20Paris", "apple": "https://maps.apple.com/?q=Notre-Dame%20de%20Paris%2C%20Paris"}}, {"id": "sainte-chapelle", "name": "圣礼拜堂", "nameEn": "Sainte-Chapelle", "lat": 48.8554, "lng": 2.345, "type": "spot", "area": "Paris", "note": "", "maps": {"google": "https://www.google.com/maps/search/?api=1&query=Sainte-Chapelle%2C%20Paris", "apple": "https://maps.apple.com/?q=Sainte-Chapelle%2C%20Paris"}}], "days": [{"id": "d1", "date": "2026-07-20 周一", "title": "抵达伦敦 + 白金汉宫 + 议会区外观 + 游船", "city": "London", "summary": "落地日保守安排：先放行李，13:00 保白金汉宫国事厅，换岗不强追。", "cost": {"activity": "£51-58", "transport": "£20-30", "food": "£25-45", "total": "£96-133 / ¥922-1,277"}, "backup": "如航班延误，保留白金汉宫，游船改为议会区外观散步。", "items": [{"time": "07:00", "title": "抵达盖特威克机场（Gatwick Airport）", "placeId": "gatwick", "desc": "CA847 上海飞伦敦落地；6人建议商务车接机。", "detail": "入境、取行李和路况都可能拉长时间，今天不追 11:00 换岗。", "cost": "商务车约£120-180/车，约£20-30/人"}, {"time": "10:30", "title": "酒店放行李：伦敦帕丁顿波特A酒店（Point A Hotel London Paddington）", "placeId": "point-a-paddington", "desc": "先寄存行李、补水、简单整理。", "detail": "7月优先空调与睡眠质量。", "cost": "免费或按酒店政策", "pay": 1}, {"time": "13:00", "title": "白金汉宫国事厅（Buckingham Palace State Rooms）", "placeId": "buckingham", "desc": "已按 13:00 slot 规划；建议 12:30-12:40 到入口。", "detail": "换岗只作为路过项目，赶上就看。", "cost": "£33/人", "pay": 1}, {"time": "15:30", "title": "圣詹姆斯公园（St James's Park）到大本钟（Big Ben）外观", "placeId": "big-ben", "desc": "白金汉宫后慢走到议会区，拍大本钟和议会大厦外观。", "detail": "", "cost": "免费"}, {"time": "18:00", "title": "泰晤士河游船（River Thames Cruise）", "placeId": "westminster-pier", "desc": "从威斯敏斯特或伦敦眼一侧上船，往塔桥方向看夜色。", "detail": "", "cost": "约£18-25/人"}, {"time": "晚餐", "title": "南岸/威斯敏斯特/帕丁顿轻餐", "placeId": null, "desc": "落地日不订太硬的餐厅，优先低糖友好的烤肉、鱼、沙拉或中餐热菜。", "detail": "", "cost": "约£25-45/人"}]}, {"id": "d2", "date": "2026-07-21 周二", "title": "大英博物馆 + 威斯敏斯特教堂 + 西区", "city": "London", "summary": "上午博物馆，下午补威斯敏斯特教堂，傍晚走西区轻路线。", "cost": {"activity": "£27.13", "transport": "£8-20", "food": "£45-80", "total": "£80-127 / ¥769-1,220"}, "backup": "如果威斯敏斯特教堂预约不到，改为只看外观，并把国家美术馆时间加长。", "items": [{"time": "10:30", "title": "大英博物馆（British Museum）", "placeId": "british-museum", "desc": "免费预约；重点看罗塞塔石碑、埃及、希腊和亚述，不超过 2.5 小时。", "detail": "馆内人多，建议只抓重点。", "cost": "免费", "pay": 1}, {"time": "13:00", "title": "布卢姆茨伯里/苏豪午餐", "placeId": null, "desc": "午餐不要太重，下午还要进教堂。", "detail": "", "cost": "约£20-35/人"}, {"time": "14:30", "title": "威斯敏斯特教堂（Westminster Abbey）", "placeId": "westminster-abbey", "desc": "内部参观挪到 Day2 下午，避开 Day1 白金汉宫冲突。", "detail": "", "cost": "约£27.13/人", "pay": 1}, {"time": "16:15", "title": "特拉法加广场（Trafalgar Square）与国家美术馆（National Gallery）", "placeId": "national-gallery", "desc": "国家美术馆常设展免费，可短入内。", "detail": "", "cost": "免费"}, {"time": "17:30", "title": "科文特花园（Covent Garden）/唐人街（Chinatown）晚餐", "placeId": "covent-garden", "desc": "中餐或轻餐，照顾高血糖成员，少甜品。", "detail": "", "cost": "约£25-45/人"}]}, {"id": "d3", "date": "2026-07-22 周三", "title": "七姐妹白崖一日游", "city": "East Sussex", "summary": "优先小团或6人商务车；天气不好就缩短崖边徒步。", "cost": {"activity": "£70-110", "transport": "已含或£100-160包车分摊", "food": "£30-50", "total": "£100-160 / ¥960-1,536"}, "backup": "天气差时改伦敦塔桥外观、Borough Market、圣保罗外观和千禧桥。", "items": [{"time": "出发前", "title": "复核天气：Seaford / Cuckmere Haven / Birling Gap", "placeId": "seven-sisters", "desc": "风大、下雨或高温都不硬走崖边。", "detail": "白崖边缘脆弱，保持安全距离。", "cost": "免费"}, {"time": "上午", "title": "锡福德角/卡克米尔港湾远景", "placeId": "seven-sisters", "desc": "经典远景比硬走全程更适合轻松节奏。", "detail": "", "cost": "一日团约£70-110/人"}, {"time": "下午", "title": "伯灵峡（Birling Gap）/比奇角（Beachy Head）", "placeId": "birling-gap", "desc": "看天气和体力决定步行长度。", "detail": "", "cost": "包车约£600-950/车时，人均约£100-160"}, {"time": "晚餐", "title": "回伦敦后酒店附近简单晚餐", "placeId": "point-a-paddington", "desc": "第二天剑桥，不再安排远距离晚餐。", "detail": "", "cost": "约£30-50/人"}]}, {"id": "d4", "date": "2026-07-23 周四", "title": "剑桥一日游", "city": "Cambridge", "summary": "从国王十字出发，抵达剑桥后打车进市中心，减少走路。", "cost": {"activity": "£35-53", "transport": "£20-40", "food": "£35-60", "total": "£90-153 / ¥864-1,469"}, "backup": "若下雨，减少撑篙，改 Fitzwilliam Museum 或咖啡馆休息。", "items": [{"time": "上午", "title": "伦敦国王十字车站（King's Cross）到剑桥（Cambridge）", "placeId": "kings-cross", "desc": "从 Paddington 先到 King's Cross，再火车去 Cambridge。", "detail": "", "cost": "往返估£20-40/人"}, {"time": "上午", "title": "国王学院礼拜堂（King's College Chapel）", "placeId": "kings-college", "desc": "剑桥核心点，旺季提前确认票务。", "detail": "", "cost": "估£15-18/人"}, {"time": "午餐", "title": "剑桥市中心轻松午餐", "placeId": "cambridge", "desc": "不排重餐，留体力给下午。", "detail": "", "cost": "约£15-25/人"}, {"time": "下午", "title": "康河撑篙（River Cam Punting）", "placeId": "river-cam", "desc": "适合6人一起体验；现场和线上价格可能不同。", "detail": "", "cost": "约£20-35/人"}, {"time": "傍晚", "title": "学院区散步后回伦敦", "placeId": "cambridge", "desc": "三一学院/圣约翰学院外观即可，不把学院全塞满。", "detail": "", "cost": "免费"}]}, {"id": "d5", "date": "2026-07-24 周五", "title": "伦敦半天 + 飞巴黎 + 埃菲尔铁塔亮灯", "city": "London / Paris", "summary": "大交通日：上午只做 Paddington 周边，晚上到巴黎看铁塔夜景，不登塔。", "cost": {"activity": "€0", "transport": "£20-30 + €8-20", "food": "£15-30 + €25-45", "total": "约¥653-1,117"}, "backup": "如航班延误，取消铁塔夜景，只在酒店附近晚餐。", "items": [{"time": "09:00", "title": "海德公园（Hyde Park）/肯辛顿花园/诺丁山三选一", "placeId": "hyde-park", "desc": "只做酒店附近轻量活动，避免赶机场。", "detail": "", "cost": "免费"}, {"time": "12:15", "title": "酒店到盖特威克机场（Gatwick Airport）", "placeId": "point-a-paddington", "desc": "U28405 16:30 伦敦飞巴黎；商务车留足时间。", "detail": "", "cost": "约£120-180/车，约£20-30/人"}, {"time": "晚间", "title": "入住巴黎M别墅酒店（Villa M Paris）", "placeId": "villa-m", "desc": "按蒙帕纳斯/巴斯德一带规划。", "detail": "", "cost": "住宿另计"}, {"time": "22:00/23:00", "title": "特罗卡德罗广场（Trocadero）看埃菲尔铁塔亮灯", "placeId": "trocadero", "desc": "只看外观和整点亮灯，不登塔，避免抵达日过累。", "detail": "", "cost": "门票€0，交通/打车约€8-20/人"}, {"time": "晚餐", "title": "Villa M 或蒙帕纳斯附近晚餐", "placeId": "villa-m", "desc": "第一晚不跨城找餐厅。", "detail": "", "cost": "约€25-45/人"}]}, {"id": "d6", "date": "2026-07-25 周六", "title": "卢浮宫 + 奥斯曼大道购物半天", "city": "Paris", "summary": "上午卢浮宫，下午老佛爷/巴黎春天购物，购物预算另计。", "cost": {"activity": "€32", "transport": "€8-20", "food": "€65-115", "total": "€105-167 / ¥882-1,403"}, "backup": "如果卢浮宫预约不到上午，购物和卢浮宫前后对调。", "items": [{"time": "上午", "title": "卢浮宫（Musee du Louvre）", "placeId": "louvre", "desc": "非欧洲经济区访客 €32/人；夏季提前预约上午时段。", "detail": "只抓三宝和重点展区，别在馆内耗到体力见底。", "cost": "€32/人", "pay": 1}, {"time": "午餐", "title": "卢浮宫/歌剧院附近午餐", "placeId": null, "desc": "购物前吃稳一点。", "detail": "", "cost": "约€25-45/人"}, {"time": "下午", "title": "老佛爷百货（Galeries Lafayette）", "placeId": "galeries", "desc": "购物预算另计；先办会员/折扣，付款选当地货币。", "detail": "核对退税单、护照号和收据。", "cost": "购物另计", "pay": 0.5}, {"time": "下午", "title": "巴黎春天（Printemps Haussmann）", "placeId": "printemps", "desc": "与老佛爷相邻，同半天完成。", "detail": "退税材料按人分开放。", "cost": "购物另计", "pay": 0.5}, {"time": "晚餐", "title": "歌剧院/九区附近晚餐", "placeId": "galeries", "desc": "购物日不要再跨到很远区域。", "detail": "", "cost": "约€40-70/人"}]}, {"id": "d7", "date": "2026-07-26 周日", "title": "凡尔赛宫一日游", "city": "Versailles", "summary": "凡尔赛周一闭馆，所以放周日；从 Montparnasse 方向出发更顺。", "cost": {"activity": "€35", "transport": "€10-25", "food": "€45-75", "total": "€90-135 / ¥756-1,134"}, "backup": "如果天气极端炎热，凡尔赛缩短为半日，下午回巴黎休息。", "items": [{"time": "上午", "title": "巴黎蒙帕纳斯方向前往凡尔赛", "placeId": "villa-m", "desc": "优先 Paris Montparnasse 到 Versailles Chantiers，再步行/打车。", "detail": "", "cost": "交通约€10-25/人"}, {"time": "上午-下午", "title": "凡尔赛宫（Chateau de Versailles）", "placeId": "versailles", "desc": "Passport 全园票 €35/人；注意防晒、补水和队伍。", "detail": "怕晒怕挤时只抓宫殿和近处花园。", "cost": "€35/人", "pay": 1}, {"time": "午餐", "title": "凡尔赛园区或镇上简餐", "placeId": "versailles", "desc": "不要把午餐排成正式长餐。", "detail": "", "cost": "约€20-35/人"}, {"time": "傍晚", "title": "回巴黎休息", "placeId": "villa-m", "desc": "晚上只安排酒店附近晚餐。", "detail": "", "cost": "晚餐约€25-40/人"}]}, {"id": "d8", "date": "2026-07-27 周一", "title": "左岸 + 香街/凯旋门轻松日", "city": "Paris", "summary": "铁塔已挪到第一晚；这天不登塔，改左岸、塞纳河边和凯旋门。", "cost": {"activity": "€0-38", "transport": "€8-20", "food": "€50-80", "total": "€58-138 / ¥487-1,159"}, "backup": "如果前一天凡尔赛太累，上午延后出发，只保留香街/凯旋门。", "items": [{"time": "上午", "title": "荣军院外观（Les Invalides）", "placeId": "invalides", "desc": "只看外观和广场，不排重馆。", "detail": "", "cost": "免费"}, {"time": "上午", "title": "亚历山大三世桥（Pont Alexandre III）与塞纳河边", "placeId": "alexandre", "desc": "轻松拍照路线。", "detail": "", "cost": "免费"}, {"time": "下午", "title": "奥赛博物馆（Musee d'Orsay，可选）或圣日耳曼德佩", "placeId": "orsay", "desc": "想看印象派选奥赛；想轻松就咖啡街区。", "detail": "", "cost": "可选€16/人"}, {"time": "傍晚", "title": "香榭丽舍大街（Champs-Elysees）到凯旋门（Arc de Triomphe）", "placeId": "arc", "desc": "凯旋门登顶可选；只看外观免费。", "detail": "", "cost": "登顶可选€22/人"}, {"time": "晚餐", "title": "左岸或香街附近晚餐", "placeId": "champs", "desc": "避开纯网红甜食主餐。", "detail": "", "cost": "约€50-80/人"}]}, {"id": "d9", "date": "2026-07-28 周二", "title": "巴黎圣母院 + 西岱岛半天 + 机场", "city": "Paris", "summary": "离开日只排半天市中心，预留机场交通。", "cost": {"activity": "€0-22", "transport": "€20-45", "food": "€25-45", "total": "€45-112 / ¥378-941"}, "backup": "如航班提前，只保留圣母院外观和机场。", "items": [{"time": "上午", "title": "巴黎圣母院（Notre-Dame de Paris）", "placeId": "notre-dame", "desc": "免费，建议官方预约；不要买第三方门票。", "detail": "", "cost": "免费", "pay": 1}, {"time": "上午", "title": "圣礼拜堂（Sainte-Chapelle，可选）", "placeId": "sainte-chapelle", "desc": "时间够再进；航班较早就只看外观。", "detail": "", "cost": "可选约€22/人"}, {"time": "中午", "title": "西岱岛/塞纳河边简餐", "placeId": "notre-dame", "desc": "离开日不安排长餐。", "detail": "", "cost": "约€25-45/人"}, {"time": "午后", "title": "前往机场", "placeId": "villa-m", "desc": "机场未锁定，按 CDG/ORY 预留；6人商务车约€90-150/车。", "detail": "", "cost": "约€20-45/人，包车约€15-25/人"}]}], "budgetSummary": {"london": [{"label": "门票/活动", "value": "£216-288/人"}, {"label": "市内/机场/一日游交通", "value": "£120-220/人"}, {"label": "餐饮", "value": "£150-265/人"}, {"label": "伦敦合计", "value": "£486-773/人，约¥4,666-7,421/人"}, {"label": "控预算要点", "value": "七姐妹选小团、伦敦市内多用公共交通、餐饮控制在 £35-45/天。"}], "paris": [{"label": "必选门票", "value": "卢浮宫€32 + 凡尔赛€35 = €67/人"}, {"label": "可选门票", "value": "奥赛€16 + 凯旋门€22 + 圣礼拜堂€22，最多€60/人"}, {"label": "餐饮", "value": "€210-360/人"}, {"label": "交通", "value": "€55-130/人"}, {"label": "巴黎基础合计", "value": "€332-557/人，约¥2,789-4,679/人"}, {"label": "含全部可选门票", "value": "€392-617/人，约¥3,293-5,183/人"}], "total": [{"label": "伦敦基础", "value": "约¥4,666-7,421/人"}, {"label": "巴黎基础", "value": "约¥2,789-4,679/人"}, {"label": "伦敦+巴黎基础合计", "value": "约¥7,455-12,100/人"}, {"label": "含巴黎全部可选门票", "value": "约¥7,959-12,604/人"}]}, "bookingPriority": ["白金汉宫国事厅（Buckingham Palace State Rooms）：7/20 13:00", "卢浮宫（Musee du Louvre）：7/25 上午", "凡尔赛宫（Chateau de Versailles）：7/26", "威斯敏斯特教堂（Westminster Abbey）：7/21 下午", "大英博物馆（British Museum）免费预约：7/21 10:30", "七姐妹白崖（Seven Sisters）小团：7/22", "剑桥撑篙（River Cam Punting）：7/23"], "restaurantBackups": [{"name": "OPSO", "area": "Marylebone", "fit": "只作 Marylebone / Regent's Park 附近备选，不作为行程锚点。", "cost": "估£35-60/人"}, {"name": "Shawarma Bros", "area": "Waterloo", "fit": "只在 South Bank / Waterloo 附近顺路时用。", "cost": "估£12-25/人"}, {"name": "Ergon Deli", "area": "待确认具体地址", "fit": "需补地址后判断是否顺路。", "cost": "估£20-35/人"}], "sources": [{"label": "Buckingham Palace", "url": "https://www.rct.uk/visit/buckingham-palace"}, {"label": "Westminster Abbey", "url": "https://www.westminster-abbey.org/visit-us/prices-and-entry-times"}, {"label": "British Museum", "url": "https://www.britishmuseum.org/visit"}, {"label": "Louvre", "url": "https://www.louvre.fr/en/visit/hours-admission"}, {"label": "Eiffel Tower", "url": "https://www.toureiffel.paris/en/rates-opening-times"}, {"label": "Versailles", "url": "https://en.chateauversailles.fr/plan-your-visit/tickets-and-prices"}, {"label": "Arc de Triomphe", "url": "https://www.paris-arc-de-triomphe.fr/en/visit/practical-information"}, {"label": "Musee d'Orsay", "url": "https://www.musee-orsay.fr/en/visit/admission-opening-times-tickets"}, {"label": "Notre-Dame de Paris", "url": "https://www.notredamedeparis.fr/en/visit/"}]}</script>
+  <script>
+    const data = JSON.parse(document.getElementById('trip-data').textContent);
+    const places = new Map(data.places.map(place => [place.id, place]));
+    let active = data.days[0].id;
+    let map;
+    let markers = [];
+    const $ = id => document.getElementById(id);
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'}[char]));
+
+    function day() { return data.days.find(d => d.id === active) || data.days[0]; }
+    function cityCenter(dayData) {
+      if (dayData.city === 'Paris') return [48.8589, 2.3350, 12];
+      if (dayData.city === 'Versailles') return [48.8049, 2.1204, 13];
+      if (dayData.city === 'Cambridge') return [52.2053, 0.1218, 13];
+      if (dayData.city === 'East Sussex') return [50.7520, 0.1800, 11];
+      if (dayData.city.includes('Paris')) return [50.6, 0.9, 6];
+      return [51.5074, -0.1278, 12];
+    }
+    function init() {
+      $('trip-title').textContent = data.trip.title;
+      $('trip-meta').textContent = `${data.trip.subtitle} · ${data.trip.dateRange}`;
+      $('trip-note').textContent = `${data.trip.style} ${data.trip.budgetNote}`;
+      $('booking').innerHTML = data.bookingPriority.map(item => `<li>${esc(item)}</li>`).join('');
+      $('restaurants').innerHTML = data.restaurantBackups.map(item => `<li><strong>${esc(item.name)}</strong>：${esc(item.fit)} ${esc(item.cost)}</li>`).join('');
+      $('sources').innerHTML = data.sources.map(source => `<li><a href="${esc(source.url)}" target="_blank" rel="noreferrer">${esc(source.label)}</a></li>`).join('');
+      renderTabs();
+      map = L.map('map', { scrollWheelZoom: false });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      render();
+    }
+    function renderTabs() {
+      $('tabs').innerHTML = data.days.map((d, idx) => `<button type="button" class="tab ${d.id === active ? 'active' : ''}" data-id="${esc(d.id)}">D${idx + 1}<br>${esc(d.date.slice(5))}</button>`).join('');
+      document.querySelectorAll('.tab').forEach(button => button.addEventListener('click', () => {
+        active = button.dataset.id;
+        renderTabs();
+        render();
+      }));
+    }
+    function budgetBox(title, rows) {
+      return `<div class="summary-box"><h3>${esc(title)}</h3>${rows.map(row => `<p><strong>${esc(row.label)}：</strong>${esc(row.value)}</p>`).join('')}</div>`;
+    }
+    function payChip(item) {
+      if (item.pay === 1) return '<span class="chip pay-yes">建议提前预订/确认</span>';
+      if (item.pay === 0.5) return '<span class="chip pay-maybe">购物/退税注意</span>';
+      return '';
+    }
+    function card(item) {
+      const place = item.placeId ? places.get(item.placeId) : null;
+      const mapLinks = place?.maps || {};
+      return `<article class="card">
+        <div class="time">${esc(item.time)}</div>
+        <h3>${esc(item.title)}</h3>
+        <p class="desc">${esc(item.desc)}</p>
+        ${item.detail ? `<p class="detail">${esc(item.detail)}</p>` : ''}
+        <p class="cost">${esc(item.cost)}</p>
+        <div class="chips">
+          ${payChip(item)}
+          ${mapLinks.google ? `<a class="chip" href="${esc(mapLinks.google)}" target="_blank" rel="noreferrer">Google Maps</a>` : ''}
+          ${mapLinks.apple ? `<a class="chip" href="${esc(mapLinks.apple)}" target="_blank" rel="noreferrer">Apple Maps</a>` : ''}
+        </div>
+      </article>`;
+    }
+    function renderMarkers(dayData) {
+      markers.forEach(marker => marker.remove());
+      markers = [];
+      const bounds = [];
+      dayData.items.forEach((item, index) => {
+        const place = item.placeId ? places.get(item.placeId) : null;
+        if (!place || typeof place.lat !== 'number') return;
+        const marker = L.marker([place.lat, place.lng]).addTo(map);
+        marker.bindPopup(`<div class="popup-title">${index + 1}. ${esc(place.name)}</div><div class="popup-en">${esc(place.nameEn)}</div><div class="popup-type">${esc(item.time)} · ${esc(item.cost)}</div>`);
+        markers.push(marker);
+        bounds.push([place.lat, place.lng]);
+      });
+      if (bounds.length > 1) map.fitBounds(bounds, { padding: [28, 28] });
+      else {
+        const [lat, lng, zoom] = cityCenter(dayData);
+        map.setView([lat, lng], zoom);
+      }
+    }
+    function render() {
+      const d = day();
+      $('budget-summary').innerHTML = [
+        budgetBox('伦敦预计费用', data.budgetSummary.london),
+        budgetBox('巴黎预计费用', data.budgetSummary.paris),
+        budgetBox('全程预计费用', data.budgetSummary.total),
+      ].join('');
+      $('day-title').textContent = `${d.date} · ${d.title}`;
+      $('day-summary').textContent = `${d.summary} 当日估算：${d.cost.total}`;
+      $('cards').innerHTML = d.items.map(card).join('');
+      $('backup').textContent = `天气/延误备选：${d.backup}`;
+      renderMarkers(d);
+    }
+    init();
+  </script>
+</body>
+</html>
