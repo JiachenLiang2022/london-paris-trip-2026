@@ -524,63 +524,63 @@
     {
       "id": "d2",
       "date": "2026-07-21 周二",
-      "title": "大英博物馆 + 威斯敏斯特教堂 + 西区",
+      "title": "大英博物馆讲解 + 快速午餐 + 威斯敏斯特教堂 + 西区",
       "city": "London",
-      "summary": "上午博物馆，下午补威斯敏斯特教堂，傍晚走西区轻路线。",
+      "summary": "大英博物馆 10:30 讲解已预约；午饭要压缩，西敏寺只建议订 14:00 左右，不要订 14:30 之后。",
       "cost": {
         "activity": "£27.13",
         "transport": "£8-20",
         "food": "£45-80",
         "total": "£80-127 / ¥769-1,220"
       },
-      "backup": "如果威斯敏斯特教堂预约不到，改为只看外观，并把国家美术馆时间加长。",
+      "backup": "如果大英博物馆讲解拖到 13:00 后，午餐改为简餐/打包并直接打车去西敏寺；如果西敏寺只剩 14:30 且你们不想赶，改到 7/24 上午。",
       "items": [
         {
           "time": "10:30",
-          "title": "大英博物馆（British Museum）",
+          "title": "大英博物馆（British Museum）讲解",
           "placeId": "british-museum",
-          "desc": "免费预约；重点看罗塞塔石碑、埃及、希腊和亚述，不超过 2.5 小时。",
-          "detail": "馆内人多，建议只抓重点。",
-          "cost": "免费",
+          "desc": "已预约上午 10:30 讲解；建议 09:55-10:05 到馆，讲解后只补最想看的展厅，不恋战。",
+          "detail": "大英博物馆官网显示日常开放 10:00-17:00，免费票建议提前预约并按时段到达。",
+          "cost": "免费或按讲解费用另计",
           "pay": 1,
-          "transfer": "Paddington 到 British Museum 建议 Elizabeth/Circle + Central/Northern 组合或直接打车；6人赶预约时打车更稳。"
+          "transfer": "Paddington 到 British Museum 建议直接打车，约20-30分钟；10:30讲解是硬约束，9:55-10:05到馆更稳。"
         },
         {
-          "time": "13:00",
-          "title": "布卢姆茨伯里/苏豪午餐",
+          "time": "12:45",
+          "title": "苏豪/唐人街快速午餐",
           "placeId": null,
-          "desc": "午餐不要太重，下午还要进教堂。",
+          "desc": "讲解结束后直接吃饭，控制在 45-60 分钟；点菜避开重辣、肥肉和甜口酱汁。",
           "detail": "",
           "cost": "约£20-35/人",
-          "transfer": "大英博物馆到 Soho/Chinatown 午餐可步行15-20分钟，也可短途打车。"
+          "transfer": "大英博物馆到 Soho/Chinatown 午餐可步行15-20分钟；若讲解结束晚，直接短途打车节省体力。"
         },
         {
-          "time": "14:30",
+          "time": "14:00",
           "title": "威斯敏斯特教堂（Westminster Abbey）",
           "placeId": "westminster-abbey",
-          "desc": "内部参观挪到 Day2 下午，避开 Day1 白金汉宫冲突。",
-          "detail": "",
+          "desc": "建议预订 14:00 左右入场；如果只剩 14:30 slot，也可以作为最后方案，但当天务必打车并提前到。",
+          "detail": "官方页面显示暑期成人票 £27.13，页面开放信息列出 General Admittance 9:30-15:30；但若票务系统最后 slot 为 14:30，就按最后入场处理。",
           "cost": "约£27.13/人",
           "pay": 1,
-          "transfer": "午餐后到 Westminster Abbey 建议打车约15-25分钟，避免地铁换乘耗体力。"
+          "transfer": "午餐后到 Westminster Abbey 必须打车，约15-25分钟；目标13:45-14:00到门口，避免卡14:30最后入场。"
         },
         {
-          "time": "16:15",
-          "title": "特拉法加广场（Trafalgar Square）与国家美术馆（National Gallery）",
+          "time": "15:45",
+          "title": "国家美术馆（National Gallery）或科文特花园（Covent Garden）",
           "placeId": "national-gallery",
-          "desc": "国家美术馆常设展免费，可短入内。",
+          "desc": "这一步降级为可选：西敏寺结束早就去国家美术馆短看；累了就直接去科文特花园/唐人街坐下休息。",
           "detail": "",
           "cost": "免费",
-          "transfer": "Westminster Abbey 到 Trafalgar Square/National Gallery 步行约15分钟。"
+          "transfer": "Westminster Abbey 到 National Gallery/Covent Garden 步行15-20分钟；如果教堂参观结束较晚，国家美术馆降级为外观或取消。"
         },
         {
           "time": "17:30",
           "title": "科文特花园（Covent Garden）/唐人街（Chinatown）晚餐",
           "placeId": "covent-garden",
-          "desc": "中餐或轻餐，点菜避开重辣、肥肉和甜口酱汁，照顾高血糖成员。",
+          "desc": "中餐或轻餐，优先清蒸/白灼/清炒蔬菜、鱼、鸡、豆腐，避开重辣、肥肉和甜饮。",
           "detail": "",
           "cost": "约£25-45/人",
-          "transfer": "National Gallery 到 Covent Garden/Chinatown 步行10-15分钟；晚餐后按体力地铁或打车回酒店。"
+          "transfer": "Covent Garden/Chinatown 晚餐后按体力地铁或打车回 Paddington。"
         }
       ]
     },
@@ -1062,8 +1062,8 @@
     "白金汉宫国事厅（Buckingham Palace State Rooms）：7/20 13:00",
     "卢浮宫（Musee du Louvre）：7/25 上午",
     "凡尔赛宫（Chateau de Versailles）：7/26",
-    "威斯敏斯特教堂（Westminster Abbey）：7/21 下午",
-    "大英博物馆（British Museum）免费预约：7/21 10:30",
+    "大英博物馆（British Museum）讲解：7/21 10:30（已预约）",
+    "威斯敏斯特教堂（Westminster Abbey）：7/21 14:00左右，尽量不要晚于14:30",
     "七姐妹白崖（Seven Sisters）小团：7/22",
     "剑桥撑篙（River Cam Punting）：7/23"
   ],
