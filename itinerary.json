@@ -9,7 +9,7 @@
       "EUR_CNY": 8.4
     },
     "budgetNote": "费用不含机票、住宿、购物、签证、保险、电话卡和不可预见打车加价。",
-    "style": "轻松节奏，一天一个主区域；餐厅不反向扭曲路线；高血糖成员每餐保留低甜/高蛋白选项。",
+    "style": "轻松节奏，一天一个主区域；餐厅不反向扭曲路线；餐食避免太辣、肥肉和高糖，每餐保留低甜/高蛋白选项。",
     "hotelChoice": "伦敦建议优先 Point A Hotel London Paddington：7月高温下空调和睡眠质量优先于少坐几站地铁。"
   },
   "places": [
@@ -469,7 +469,8 @@
           "placeId": "gatwick",
           "desc": "CA847 上海飞伦敦落地；6人建议商务车接机。",
           "detail": "入境、取行李和路况都可能拉长时间，今天不追 11:00 换岗。",
-          "cost": "商务车约£120-180/车，约£20-30/人"
+          "cost": "商务车约£120-180/车，约£20-30/人",
+          "transfer": "Gatwick 到 Paddington 建议预订6座商务车，约70-100分钟；公共交通对6人行李不友好。"
         },
         {
           "time": "10:30",
@@ -478,7 +479,8 @@
           "desc": "先寄存行李、补水、简单整理。",
           "detail": "7月优先空调与睡眠质量。",
           "cost": "免费或按酒店政策",
-          "pay": 1
+          "pay": 1,
+          "transfer": "酒店到白金汉宫建议打车约20-30分钟；若公共交通，Paddington 坐 Circle/District 到 St James's Park 后步行。"
         },
         {
           "time": "13:00",
@@ -487,7 +489,8 @@
           "desc": "已按 13:00 slot 规划；建议 12:30-12:40 到入口。",
           "detail": "换岗只作为路过项目，赶上就看。",
           "cost": "£33/人",
-          "pay": 1
+          "pay": 1,
+          "transfer": "白金汉宫出来步行穿过 St James's Park 到议会区，约20-30分钟，节奏最顺。"
         },
         {
           "time": "15:30",
@@ -495,7 +498,8 @@
           "placeId": "big-ben",
           "desc": "白金汉宫后慢走到议会区，拍大本钟和议会大厦外观。",
           "detail": "",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "大本钟到 Westminster Pier / London Eye Pier 步行5-10分钟。"
         },
         {
           "time": "18:00",
@@ -503,15 +507,17 @@
           "placeId": "westminster-pier",
           "desc": "从威斯敏斯特或伦敦眼一侧上船，往塔桥方向看夜色。",
           "detail": "",
-          "cost": "约£18-25/人"
+          "cost": "约£18-25/人",
+          "transfer": "游船后按下船码头决定晚餐；South Bank 就近吃，累了直接打车回 Paddington。"
         },
         {
           "time": "晚餐",
           "title": "南岸/威斯敏斯特/帕丁顿轻餐",
           "placeId": null,
-          "desc": "落地日不订太硬的餐厅，优先低糖友好的烤肉、鱼、沙拉或中餐热菜。",
+          "desc": "落地日不订太硬的餐厅，优先低糖、少辣、少肥肉的烤鱼/烤鸡/瘦肉、沙拉或中餐热菜。",
           "detail": "",
-          "cost": "约£25-45/人"
+          "cost": "约£25-45/人",
+          "transfer": "晚餐后回酒店建议打车；若从 Westminster/South Bank 回 Paddington，地铁约20-30分钟。"
         }
       ]
     },
@@ -536,7 +542,8 @@
           "desc": "免费预约；重点看罗塞塔石碑、埃及、希腊和亚述，不超过 2.5 小时。",
           "detail": "馆内人多，建议只抓重点。",
           "cost": "免费",
-          "pay": 1
+          "pay": 1,
+          "transfer": "Paddington 到 British Museum 建议 Elizabeth/Circle + Central/Northern 组合或直接打车；6人赶预约时打车更稳。"
         },
         {
           "time": "13:00",
@@ -544,7 +551,8 @@
           "placeId": null,
           "desc": "午餐不要太重，下午还要进教堂。",
           "detail": "",
-          "cost": "约£20-35/人"
+          "cost": "约£20-35/人",
+          "transfer": "大英博物馆到 Soho/Chinatown 午餐可步行15-20分钟，也可短途打车。"
         },
         {
           "time": "14:30",
@@ -553,7 +561,8 @@
           "desc": "内部参观挪到 Day2 下午，避开 Day1 白金汉宫冲突。",
           "detail": "",
           "cost": "约£27.13/人",
-          "pay": 1
+          "pay": 1,
+          "transfer": "午餐后到 Westminster Abbey 建议打车约15-25分钟，避免地铁换乘耗体力。"
         },
         {
           "time": "16:15",
@@ -561,15 +570,17 @@
           "placeId": "national-gallery",
           "desc": "国家美术馆常设展免费，可短入内。",
           "detail": "",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "Westminster Abbey 到 Trafalgar Square/National Gallery 步行约15分钟。"
         },
         {
           "time": "17:30",
           "title": "科文特花园（Covent Garden）/唐人街（Chinatown）晚餐",
           "placeId": "covent-garden",
-          "desc": "中餐或轻餐，照顾高血糖成员，少甜品。",
+          "desc": "中餐或轻餐，点菜避开重辣、肥肉和甜口酱汁，照顾高血糖成员。",
           "detail": "",
-          "cost": "约£25-45/人"
+          "cost": "约£25-45/人",
+          "transfer": "National Gallery 到 Covent Garden/Chinatown 步行10-15分钟；晚餐后按体力地铁或打车回酒店。"
         }
       ]
     },
@@ -593,7 +604,8 @@
           "placeId": "seven-sisters",
           "desc": "风大、下雨或高温都不硬走崖边。",
           "detail": "白崖边缘脆弱，保持安全距离。",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "出发前让司机/团确认当天先去 Seaford Head 还是 Birling Gap；公共交通方案当天不推荐。"
         },
         {
           "time": "上午",
@@ -601,7 +613,8 @@
           "placeId": "seven-sisters",
           "desc": "经典远景比硬走全程更适合轻松节奏。",
           "detail": "",
-          "cost": "一日团约£70-110/人"
+          "cost": "一日团约£70-110/人",
+          "transfer": "伦敦到 Seaford / East Sussex 小团车程约2-2.5小时，途中服务区补水上厕所。"
         },
         {
           "time": "下午",
@@ -609,15 +622,17 @@
           "placeId": "birling-gap",
           "desc": "看天气和体力决定步行长度。",
           "detail": "",
-          "cost": "包车约£600-950/车时，人均约£100-160"
+          "cost": "包车约£600-950/车时，人均约£100-160",
+          "transfer": "Seaford Head 到 Birling Gap 建议随车转场；不要沿崖边长距离硬走。"
         },
         {
           "time": "晚餐",
           "title": "回伦敦后酒店附近简单晚餐",
           "placeId": "point-a-paddington",
-          "desc": "第二天剑桥，不再安排远距离晚餐。",
+          "desc": "第二天剑桥，不再安排远距离晚餐；优先清淡中餐、汤面少汤少油、鱼/鸡/蔬菜。",
           "detail": "",
-          "cost": "约£30-50/人"
+          "cost": "约£30-50/人",
+          "transfer": "回伦敦后若下车点不在 Paddington，直接打车回酒店，避免晚间拖着大家转地铁。"
         }
       ]
     },
@@ -641,7 +656,8 @@
           "placeId": "kings-cross",
           "desc": "从 Paddington 先到 King's Cross，再火车去 Cambridge。",
           "detail": "",
-          "cost": "往返估£20-40/人"
+          "cost": "往返估£20-40/人",
+          "transfer": "Paddington 到 King's Cross 建议地铁 Circle/Hammersmith & City 约15分钟；带老人或赶车时打车约20-30分钟。"
         },
         {
           "time": "上午",
@@ -649,7 +665,8 @@
           "placeId": "kings-college",
           "desc": "剑桥核心点，旺季提前确认票务。",
           "detail": "",
-          "cost": "估£15-18/人"
+          "cost": "估£15-18/人",
+          "transfer": "Cambridge Station 到市中心建议打车，约10-15分钟；步行约25-30分钟不适合省体力。"
         },
         {
           "time": "午餐",
@@ -657,7 +674,8 @@
           "placeId": "cambridge",
           "desc": "不排重餐，留体力给下午。",
           "detail": "",
-          "cost": "约£15-25/人"
+          "cost": "约£15-25/人",
+          "transfer": "国王学院礼拜堂到市中心午餐步行5-10分钟。"
         },
         {
           "time": "下午",
@@ -665,7 +683,8 @@
           "placeId": "river-cam",
           "desc": "适合6人一起体验；现场和线上价格可能不同。",
           "detail": "",
-          "cost": "约£20-35/人"
+          "cost": "约£20-35/人",
+          "transfer": "市中心到康河撑篙码头步行5-12分钟，按预约/现场点位导航。"
         },
         {
           "time": "傍晚",
@@ -673,7 +692,8 @@
           "placeId": "cambridge",
           "desc": "三一学院/圣约翰学院外观即可，不把学院全塞满。",
           "detail": "",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "学院区回 Cambridge Station 建议打车；回 London King's Cross 后再地铁/打车回 Paddington。"
         }
       ]
     },
@@ -697,7 +717,8 @@
           "placeId": "hyde-park",
           "desc": "只做酒店附近轻量活动，避免赶机场。",
           "detail": "",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "酒店到 Hyde Park / Kensington Gardens 步行或短途打车；不要跨城去远景点。"
         },
         {
           "time": "12:15",
@@ -705,7 +726,8 @@
           "placeId": "point-a-paddington",
           "desc": "U28405 16:30 伦敦飞巴黎；商务车留足时间。",
           "detail": "",
-          "cost": "约£120-180/车，约£20-30/人"
+          "cost": "约£120-180/车，约£20-30/人",
+          "transfer": "Paddington 到 Gatwick 建议商务车，约70-100分钟；12:15出发给16:30航班留余量。"
         },
         {
           "time": "晚间",
@@ -713,7 +735,8 @@
           "placeId": "villa-m",
           "desc": "按蒙帕纳斯/巴斯德一带规划。",
           "detail": "",
-          "cost": "住宿另计"
+          "cost": "住宿另计",
+          "transfer": "巴黎机场到 Villa M 按实际落地机场选择出租/预约接机；6人带行李优先商务车。"
         },
         {
           "time": "22:00/23:00",
@@ -721,15 +744,17 @@
           "placeId": "trocadero",
           "desc": "只看外观和整点亮灯，不登塔，避免抵达日过累。",
           "detail": "",
-          "cost": "门票€0，交通/打车约€8-20/人"
+          "cost": "门票€0，交通/打车约€8-20/人",
+          "transfer": "Villa M 到 Trocadero 建议打车，约20-30分钟；晚上不建议全员挤地铁折返。"
         },
         {
           "time": "晚餐",
           "title": "Villa M 或蒙帕纳斯附近晚餐",
           "placeId": "villa-m",
-          "desc": "第一晚不跨城找餐厅。",
+          "desc": "第一晚不跨城找餐厅；避开甜点当主食，选择鱼、鸡、蛋、蔬菜和不辣菜。",
           "detail": "",
-          "cost": "约€25-45/人"
+          "cost": "约€25-45/人",
+          "transfer": "看完铁塔亮灯后打车回 Villa M；若太累，直接取消夜景。"
         }
       ]
     },
@@ -754,7 +779,8 @@
           "desc": "非欧洲经济区访客 €32/人；夏季提前预约上午时段。",
           "detail": "只抓三宝和重点展区，别在馆内耗到体力见底。",
           "cost": "€32/人",
-          "pay": 1
+          "pay": 1,
+          "transfer": "Villa M 到 Louvre 建议地铁或打车；6人上午赶预约时打车约20-30分钟更稳。"
         },
         {
           "time": "午餐",
@@ -762,7 +788,8 @@
           "placeId": null,
           "desc": "购物前吃稳一点。",
           "detail": "",
-          "cost": "约€25-45/人"
+          "cost": "约€25-45/人",
+          "transfer": "卢浮宫到歌剧院/奥斯曼大道可地铁1-2站或打车约10-15分钟。"
         },
         {
           "time": "下午",
@@ -771,7 +798,8 @@
           "desc": "购物预算另计；先办会员/折扣，付款选当地货币。",
           "detail": "核对退税单、护照号和收据。",
           "cost": "购物另计",
-          "pay": 0.5
+          "pay": 0.5,
+          "transfer": "老佛爷和巴黎春天相邻，步行3-5分钟。"
         },
         {
           "time": "下午",
@@ -780,15 +808,17 @@
           "desc": "与老佛爷相邻，同半天完成。",
           "detail": "退税材料按人分开放。",
           "cost": "购物另计",
-          "pay": 0.5
+          "pay": 0.5,
+          "transfer": "购物后晚餐就近解决；带购物袋回 Villa M 建议打车。"
         },
         {
           "time": "晚餐",
           "title": "歌剧院/九区附近晚餐",
           "placeId": "galeries",
-          "desc": "购物日不要再跨到很远区域。",
+          "desc": "购物日不要再跨到很远区域；选少辣、少肥肉、低甜酱汁的正餐。",
           "detail": "",
-          "cost": "约€40-70/人"
+          "cost": "约€40-70/人",
+          "transfer": "晚餐后回酒店尽量打车，退税单据和购物袋按人收好。"
         }
       ]
     },
@@ -812,7 +842,8 @@
           "placeId": "villa-m",
           "desc": "优先 Paris Montparnasse 到 Versailles Chantiers，再步行/打车。",
           "detail": "",
-          "cost": "交通约€10-25/人"
+          "cost": "交通约€10-25/人",
+          "transfer": "Villa M 到 Paris Montparnasse 很近，建议打车或地铁一站内解决；再坐火车到 Versailles Chantiers。"
         },
         {
           "time": "上午-下午",
@@ -821,7 +852,8 @@
           "desc": "Passport 全园票 €35/人；注意防晒、补水和队伍。",
           "detail": "怕晒怕挤时只抓宫殿和近处花园。",
           "cost": "€35/人",
-          "pay": 1
+          "pay": 1,
+          "transfer": "Versailles Chantiers 到凡尔赛宫可步行约20分钟，热天或长辈累时打车/公交补段。"
         },
         {
           "time": "午餐",
@@ -829,15 +861,17 @@
           "placeId": "versailles",
           "desc": "不要把午餐排成正式长餐。",
           "detail": "",
-          "cost": "约€20-35/人"
+          "cost": "约€20-35/人",
+          "transfer": "宫殿和花园之间步行距离长，按体力选择小火车/园内交通。"
         },
         {
           "time": "傍晚",
           "title": "回巴黎休息",
           "placeId": "villa-m",
-          "desc": "晚上只安排酒店附近晚餐。",
+          "desc": "晚上只安排酒店附近晚餐；凡尔赛日避免高糖甜品和肥肉主菜。",
           "detail": "",
-          "cost": "晚餐约€25-40/人"
+          "cost": "晚餐约€25-40/人",
+          "transfer": "回巴黎仍走 Versailles Chantiers 到 Montparnasse；晚餐放酒店附近。"
         }
       ]
     },
@@ -861,7 +895,8 @@
           "placeId": "invalides",
           "desc": "只看外观和广场，不排重馆。",
           "detail": "",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "Villa M 到 Les Invalides 可地铁或打车约15-20分钟。"
         },
         {
           "time": "上午",
@@ -869,7 +904,8 @@
           "placeId": "alexandre",
           "desc": "轻松拍照路线。",
           "detail": "",
-          "cost": "免费"
+          "cost": "免费",
+          "transfer": "荣军院到亚历山大三世桥步行约10-15分钟。"
         },
         {
           "time": "下午",
@@ -877,7 +913,8 @@
           "placeId": "orsay",
           "desc": "想看印象派选奥赛；想轻松就咖啡街区。",
           "detail": "",
-          "cost": "可选€16/人"
+          "cost": "可选€16/人",
+          "transfer": "亚历山大三世桥到奥赛可沿河步行约15分钟；热天直接打车。"
         },
         {
           "time": "傍晚",
@@ -885,15 +922,17 @@
           "placeId": "arc",
           "desc": "凯旋门登顶可选；只看外观免费。",
           "detail": "",
-          "cost": "登顶可选€22/人"
+          "cost": "登顶可选€22/人",
+          "transfer": "奥赛/圣日耳曼到香街或凯旋门建议打车或地铁，避免傍晚长距离步行。"
         },
         {
           "time": "晚餐",
           "title": "左岸或香街附近晚餐",
           "placeId": "champs",
-          "desc": "避开纯网红甜食主餐。",
+          "desc": "避开纯网红甜食主餐，少辣少肥肉，优先鱼、海鲜、鸡肉、牛排瘦切和蔬菜。",
           "detail": "",
-          "cost": "约€50-80/人"
+          "cost": "约€50-80/人",
+          "transfer": "凯旋门/香街晚餐后回 Villa M 建议打车。"
         }
       ]
     },
@@ -918,7 +957,8 @@
           "desc": "免费，建议官方预约；不要买第三方门票。",
           "detail": "",
           "cost": "免费",
-          "pay": 1
+          "pay": 1,
+          "transfer": "Villa M 到巴黎圣母院建议地铁或打车约20-30分钟，离开日不要压太紧。"
         },
         {
           "time": "上午",
@@ -926,15 +966,17 @@
           "placeId": "sainte-chapelle",
           "desc": "时间够再进；航班较早就只看外观。",
           "detail": "",
-          "cost": "可选约€22/人"
+          "cost": "可选约€22/人",
+          "transfer": "巴黎圣母院到圣礼拜堂步行约5-8分钟。"
         },
         {
           "time": "中午",
           "title": "西岱岛/塞纳河边简餐",
           "placeId": "notre-dame",
-          "desc": "离开日不安排长餐。",
+          "desc": "离开日不安排长餐；选低糖、少酱、少油的简餐。",
           "detail": "",
-          "cost": "约€25-45/人"
+          "cost": "约€25-45/人",
+          "transfer": "西岱岛午餐后回酒店取行李，建议打车，避免地铁人多丢东西。"
         },
         {
           "time": "午后",
@@ -942,7 +984,8 @@
           "placeId": "villa-m",
           "desc": "机场未锁定，按 CDG/ORY 预留；6人商务车约€90-150/车。",
           "detail": "",
-          "cost": "约€20-45/人，包车约€15-25/人"
+          "cost": "约€20-45/人，包车约€15-25/人",
+          "transfer": "酒店到 CDG/ORY 按实际机场预订商务车；离境日预留退税、安检和堵车时间。"
         }
       ]
     }
@@ -1028,20 +1071,57 @@
     {
       "name": "OPSO",
       "area": "Marylebone",
-      "fit": "只作 Marylebone / Regent's Park 附近备选，不作为行程锚点。",
+      "fit": "只作 Marylebone / Regent's Park 附近备选；点烤鱼、鸡肉、沙拉，避开甜品和甜饮。",
       "cost": "估£35-60/人"
     },
     {
       "name": "Shawarma Bros",
       "area": "Waterloo",
-      "fit": "只在 South Bank / Waterloo 附近顺路时用。",
+      "fit": "只在 South Bank / Waterloo 附近顺路时用；点 bowl/plate，少酱、不加辣、不点甜饮。",
       "cost": "估£12-25/人"
     },
     {
       "name": "Ergon Deli",
       "area": "待确认具体地址",
-      "fit": "需补地址后判断是否顺路。",
+      "fit": "需补地址后判断是否顺路；brunch 选蛋、酸奶少蜂蜜、沙拉和咸口主食。",
       "cost": "估£20-35/人"
+    }
+  ],
+  "xhsReferences": [
+    {
+      "label": "伦敦3天不绕路攻略",
+      "url": "https://www.xiaohongshu.com/discovery/item/6a045be3000000000803c072?source=webshare&xhsshare=pc_web&xsec_token=ABCnbuO6RcF0JsusAipz5IGZz2exoeR4TuZSEQCAFqVpg=&xsec_source=pc_share",
+      "note": "伦敦核心 city walk 分区参考"
+    },
+    {
+      "label": "Paddington 住宿区域参考",
+      "url": "https://www.xiaohongshu.com/discovery/item/69d39c6a0000000021039df6?source=webshare&xhsshare=pc_web&xsec_token=ABndZ4WVaZvaJ0FopAYvi-2HSVsEJ1kEkhK4NZWAohJFc=&xsec_source=pc_share",
+      "note": "伦敦住宿区域参考"
+    },
+    {
+      "label": "七姐妹白崖避坑攻略",
+      "url": "https://www.xiaohongshu.com/discovery/item/69f13e3300000000350306cb?source=webshare&xhsshare=pc_web&xsec_token=AB9Qm5JEbMYXmAWQLTooRdoUXbhQjjluBltsybLPCxvHk=&xsec_source=pc_share",
+      "note": "白崖天气和路线提醒"
+    },
+    {
+      "label": "伦敦往返剑桥一日游",
+      "url": "https://www.xiaohongshu.com/discovery/item/69918a9c000000001b0158b6?source=webshare&xhsshare=pc_web&xsec_token=ABdBkYbYeJKj-rpg7iSx2ueLl2l0YdWq0mARnDEZAwfRM=&xsec_source=pc_share",
+      "note": "剑桥节奏参考"
+    },
+    {
+      "label": "巴黎4天自由行详细攻略",
+      "url": "https://www.xiaohongshu.com/discovery/item/6a115c080000000037036d34?source=webshare&xhsshare=pc_web&xsec_token=ABiFZ50EbIOgWjRQ-bcgKYWFjXyK6GeqRr3xPFwA2_CMo=&xsec_source=pc_share",
+      "note": "巴黎轻松路线参考"
+    },
+    {
+      "label": "巴黎商场购物攻略",
+      "url": "https://www.xiaohongshu.com/discovery/item/6a065ff90000000010001c00?source=webshare&xhsshare=pc_web&xsec_token=ABwmCKmUdV-ERQjgdYuo0tqWEix_yKo3VqeAytaaZcU-4=&xsec_source=pc_share",
+      "note": "老佛爷/巴黎春天购物参考"
+    },
+    {
+      "label": "巴黎圣母院免费入园避坑",
+      "url": "https://www.xiaohongshu.com/discovery/item/6a0e6983000000000702de11?source=webshare&xhsshare=pc_web&xsec_token=ABodU3KNuGgxXFRg90NxdHMXC39ADIQ4GYW7E29QsMVq4=&xsec_source=pc_share",
+      "note": "圣母院预约和避坑参考"
     }
   ],
   "sources": [
